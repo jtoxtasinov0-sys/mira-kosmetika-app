@@ -10,7 +10,17 @@ export function Skeleton({ className }: { className?: string }) {
   return <div className={cn('skeleton rounded-2xl', className)} />;
 }
 
-export function ProductImage({ src, alt, className }: { src: string | null; alt: string; className?: string }) {
+export function ProductImage({
+  src,
+  alt,
+  className,
+  eager,
+}: {
+  src: string | null;
+  alt: string;
+  className?: string;
+  eager?: boolean;
+}) {
   const [failed, setFailed] = useState(false);
   if (!src || failed) {
     return (
@@ -24,7 +34,7 @@ export function ProductImage({ src, alt, className }: { src: string | null; alt:
     <img
       src={src}
       alt={alt}
-      loading="lazy"
+      loading={eager ? 'eager' : 'lazy'}
       decoding="async"
       onError={() => setFailed(true)}
       className={cn('object-cover', className)}

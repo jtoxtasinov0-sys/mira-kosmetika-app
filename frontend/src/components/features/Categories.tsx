@@ -17,7 +17,7 @@ export function CategoryStories({ categories }: { categories: Category[] }) {
         >
           <span className="ring-story rounded-full p-[2.5px]">
             <span className="block rounded-full bg-mira-50 p-[2.5px]">
-              <ProductImage src={c.image} alt={c.name} className="size-[62px] rounded-full bg-white" />
+              <ProductImage src={c.image} alt={c.name} eager className="size-[62px] rounded-full bg-white" />
             </span>
           </span>
           <span className="w-full truncate text-center text-[11.5px] font-bold text-ink">{c.name}</span>
