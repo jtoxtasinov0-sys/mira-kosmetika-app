@@ -25,7 +25,8 @@ export function useCatalog() {
     productById: maps.products,
     categoryById: maps.categories,
     error,
-    isLoading,
+    // Serverdan kelgan boshlang'ich katalog bo'lsa, fondagi yangilanish "yuklanmoqda" hisoblanmaydi
+    isLoading: isLoading && !data,
     mutate,
   };
 }

@@ -3,8 +3,10 @@ import type { Metadata, Viewport } from 'next';
 import Script from 'next/script';
 import { Manrope, Playfair_Display } from 'next/font/google';
 import TelegramProvider from '@/providers/TelegramProvider';
+import CatalogProvider from '@/providers/CatalogProvider';
 import ShopChrome from '@/components/layout/ShopChrome';
 import { Toaster } from '@/components/ui';
+import { getCatalogServer } from '@/lib/server';
 import '@/styles/globals.css';
 
 const manrope = Manrope({ subsets: ['latin', 'cyrillic'], variable: '--font-manrope', display: 'swap' });
@@ -40,13 +42,16 @@ export const viewport: Viewport = {
   themeColor: '#FFF5FB',
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const catalog = await getCatalogServer();
   return (
     <html lang="uz" className={`${manrope.variable} ${playfair.variable}`} suppressHydrationWarning>
       <body>
         <Script src="https://telegram.org/js/telegram-web-app.js" strategy="beforeInteractive" />
         <TelegramProvider>
-          <ShopChrome>{children}</ShopChrome>
+          <CatalogProvider catalog={catalog}>
+            <ShopChrome>{children}</ShopChrome>
+          </CatalogProvider>
         </TelegramProvider>
         <Toaster />
       </body>
