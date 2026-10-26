@@ -1,0 +1,29 @@
+{
+  "name": "mira-backend",
+  "version": "1.0.0",
+  "private": true,
+  "description": "MIRA Cosmetics — Telegram bot + REST API (Express, grammY, PostgreSQL/Neon)",
+  "type": "module",
+  "main": "src/index.js",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "node --watch src/index.js",
+    "start": "node src/index.js",
+    "migrate": "node src/database/migrate.js",
+    "seed": "node seed/seed.js",
+    "webhook:set": "node src/scripts/setWebhook.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.0",
+    "express": "^5.1.0",
+    "grammy": "^1.38.0",
+    "jsonwebtoken": "^9.0.2",
+    "pg": "^8.16.0"
+  },
+  "devDependencies": {
+    "sharp": "^0.34.0"
+  }
+}
