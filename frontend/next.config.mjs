@@ -5,9 +5,10 @@ const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   // Brauzer faqat frontend domeniga murojaat qiladi: /api/* backendga proksi qilinadi (CORS kerak emas,
-  // rasmlar ham shu domen ostida — Telegram havola ko'rinishida (og:image) to'g'ri chiqadi)
+  // rasmlar ham shu domen ostida — Telegram havola ko'rinishida (og:image) to'g'ri chiqadi).
+  // "fallback": avval o'zimizning route handler'lar (masalan /api/images/[id] — Vercel CDN keshi bilan), keyin proksi
   async rewrites() {
-    return [{ source: '/api/:path*', destination: `${BACKEND_URL}/api/:path*` }];
+    return { fallback: [{ source: '/api/:path*', destination: `${BACKEND_URL}/api/:path*` }] };
   },
 };
 

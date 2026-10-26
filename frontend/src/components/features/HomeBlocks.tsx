@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { ArrowRight, CreditCard, Megaphone, Package, Truck } from 'lucide-react';
-import { Sakura } from '@/components/ui';
+import { ProductImage, Sakura } from '@/components/ui';
 import { useCartStore } from '@/store/cartStore';
 import { haptic } from '@/hooks/useTelegram';
 import { toast } from '@/store/toastStore';
@@ -14,19 +14,19 @@ function FloatingProducts({ products }: { products: Product[] }) {
   return (
     <div className="pointer-events-none absolute -right-3 bottom-0 top-0 w-[46%]">
       {a && (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={a.image!}
+        <ProductImage
+          src={a.image}
           alt=""
-          className="absolute right-6 top-5 size-[104px] rotate-6 rounded-[26px] bg-white object-cover shadow-2xl ring-4 ring-white/25"
+          eager
+          className="absolute right-6 top-5 size-[104px] rotate-6 rounded-[26px] bg-white shadow-2xl ring-4 ring-white/25"
         />
       )}
       {b && (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={b.image!}
+        <ProductImage
+          src={b.image}
           alt=""
-          className="absolute bottom-5 right-[92px] size-[84px] -rotate-6 rounded-[22px] bg-white object-cover shadow-2xl ring-4 ring-white/25"
+          eager
+          className="absolute bottom-5 right-[92px] size-[84px] -rotate-6 rounded-[22px] bg-white shadow-2xl ring-4 ring-white/25"
         />
       )}
     </div>

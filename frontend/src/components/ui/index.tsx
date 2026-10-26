@@ -1,7 +1,7 @@
 'use client';
 // Kichik umumiy UI qismlar
 import { Minus, Plus, Flower2, ImageOff } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
 import { haptic } from '@/hooks/useTelegram';
 import { useToast } from '@/store/toastStore';
@@ -10,6 +10,11 @@ export function Skeleton({ className }: { className?: string }) {
   return <div className={cn('skeleton rounded-2xl', className)} />;
 }
 
+const IMAGE_RETRIES = 3;
+
+/**
+ * Mahsulot rasmi: yuklanguncha skeleton, xato bo'lsa (masalan backend uyg'onayotganda) bir necha marta qayta urinadi
+ */
 export function ProductImage({
   src,
   alt,
@@ -21,23 +26,49 @@ export function ProductImage({
   className?: string;
   eager?: boolean;
 }) {
-  const [failed, setFailed] = useState(false);
-  if (!src || failed) {
+  const [state, setState] = useState({ src, attempt: 0, failed: false, loaded: false });
+  if (state.src !== src) setState({ src, attempt: 0, failed: false, loaded: false });
+  const imgRef = useRef<HTMLImageElement>(null);
+
+  const url =
+    src && state.attempt && !src.startsWith('data:') ? `${src}${src.includes('?') ? '&' : '?'}r=${state.attempt}` : src;
+
+  // Gidratsiyadan oldin yuklanib bo'lgan rasmlar uchun onLoad/onError chaqirilmaydi — holatini o'zimiz tekshiramiz
+  useEffect(() => {
+    const img = imgRef.current;
+    if (!img?.complete) return;
+    if (img.naturalWidth > 0) setState((s) => (s.loaded ? s : { ...s, loaded: true }));
+    else setState((s) => (s.failed ? s : { ...s, failed: true }));
+  }, [url]);
+
+  useEffect(() => {
+    if (!state.failed || state.attempt >= IMAGE_RETRIES) return;
+    const t = setTimeout(
+      () => setState((s) => ({ ...s, attempt: s.attempt + 1, failed: false, loaded: false })),
+      1500 * 2 ** state.attempt
+    );
+    return () => clearTimeout(t);
+  }, [state.failed, state.attempt]);
+
+  if (!src || (state.failed && state.attempt >= IMAGE_RETRIES)) {
     return (
       <div className={cn('flex items-center justify-center bg-mira-soft text-mira-200', className)}>
         <ImageOff className="size-8" />
       </div>
     );
   }
+  if (state.failed) return <div className={cn('skeleton', className)} />;
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      src={src}
+      ref={imgRef}
+      src={url!}
       alt={alt}
       loading={eager ? 'eager' : 'lazy'}
       decoding="async"
-      onError={() => setFailed(true)}
-      className={cn('object-cover', className)}
+      onLoad={() => setState((s) => (s.loaded ? s : { ...s, loaded: true }))}
+      onError={() => setState((s) => (s.failed ? s : { ...s, failed: true }))}
+      className={cn('object-cover', !state.loaded && 'skeleton text-transparent', className)}
     />
   );
 }
