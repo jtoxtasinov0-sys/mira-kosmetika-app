@@ -21,8 +21,8 @@ app.use(
   })
 );
 
-// Telegram webhook (production / Vercel). Lokal rejimda bot long polling bilan ishlaydi (src/index.js)
-if (bot && (config.isVercel || process.env.BOT_MODE === 'webhook')) {
+// Telegram webhook (production: Render / Vercel). Lokal rejimda bot long polling bilan ishlaydi (src/index.js)
+if (bot && config.bot.webhookMode) {
   app.post(
     '/api/bot/webhook',
     express.json(),

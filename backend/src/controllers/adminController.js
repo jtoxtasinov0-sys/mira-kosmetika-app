@@ -188,6 +188,7 @@ export async function saveSettings(req, res) {
 // ---------- Bot ----------
 const backendPublicUrl = (req) => {
   if (process.env.BACKEND_URL) return process.env.BACKEND_URL.replace(/\/$/, '');
+  if (process.env.RENDER_EXTERNAL_URL) return process.env.RENDER_EXTERNAL_URL.replace(/\/$/, '');
   if (process.env.VERCEL_PROJECT_PRODUCTION_URL) return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
   return `${req.protocol}://${req.get('host')}`;
 };

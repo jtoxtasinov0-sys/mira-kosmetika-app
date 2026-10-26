@@ -21,6 +21,8 @@ const config = {
     token: process.env.BOT_TOKEN || '',
     adminChatIds: list(process.env.ADMIN_CHAT_IDS),
     webhookSecret: process.env.WEBHOOK_SECRET || '',
+    // Vercel'da doim webhook; Render va boshqa serverlarda BOT_MODE=webhook bilan yoqiladi, aks holda long polling
+    webhookMode: !!process.env.VERCEL || process.env.BOT_MODE === 'webhook',
   },
 
   webappUrl: (process.env.WEBAPP_URL || 'http://localhost:3000').replace(/\/$/, ''),
