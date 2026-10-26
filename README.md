@@ -30,17 +30,24 @@ cd frontend && npm install && npm run dev                    # http://localhost:
 
 Bot lokal rejimda polling bilan ishlaydi. Buyurtmalar kelishi uchun botga `/id` yuboring va chiqqan raqamni `ADMIN_CHAT_IDS` ga yozing.
 
-## Vercel’ga joylash (bitta GitHub repodan ikki loyiha)
+## Joylash: backend → Render, frontend → Vercel
 
-1. **Backend** — Vercel → Add New Project → shu repo → *Root Directory*: `backend`, Framework: **Other**.
-   Environment Variables:
-   `DATABASE_URL`, `BOT_TOKEN`, `ADMIN_CHAT_IDS`, `WEBHOOK_SECRET`, `ADMIN_PASSWORD`, `JWT_SECRET`, `NODE_ENV=production`,
-   `WEBAPP_URL=https://<frontend-domeni>.vercel.app`
-2. **Frontend** — yana Add New Project → shu repo → *Root Directory*: `frontend`, Framework: **Next.js**.
-   Environment Variables:
-   `BACKEND_URL=https://<backend-domeni>.vercel.app`, `NEXT_PUBLIC_SITE_URL=https://<frontend-domeni>.vercel.app`,
-   `NEXT_PUBLIC_BOT_USERNAME=mira_kosmetika_bot`
-3. `https://<frontend-domeni>/admin` → Sozlamalar → **“Botni ulash”** (webhook + menyu tugmasi o‘rnatiladi).
-4. (Ixtiyoriy) @BotFather → `/setinline` — `@mira_kosmetika_bot <so‘z>` orqali mahsulot ulashish uchun.
+**Backend (Render → New Web Service → shu repo)**
+- Root Directory: `backend` · Build: `npm ci --omit=dev` · Start: `npm start` · Health Check Path: `/api/health`
+- Environment: `backend/.env` dagilar (`PORT` dan tashqari), shuningdek `NODE_ENV=production`, `BOT_MODE=webhook`,
+  `WEBAPP_URL=https://mira-kosmetika-app.vercel.app`
+- Bot webhooki servis ishga tushganda avtomatik o‘rnatiladi (`RENDER_EXTERNAL_URL/api/bot/webhook`).
 
-> Diqqat: lokal backendni ishga tushirish webhookni o‘chiradi (polling). Keyin admin paneldagi “Botni ulash”ni qayta bosing.
+**Frontend (Vercel, Root Directory: `frontend`, Framework: Next.js)**
+- `BACKEND_URL=https://mira-kosmetika-api.onrender.com`
+- `NEXT_PUBLIC_SITE_URL=https://mira-kosmetika-app.vercel.app`
+- `NEXT_PUBLIC_BOT_USERNAME=mira_kosmetika_bot`
+
+**Keyin**
+1. Botga `/id` yuboring → raqamni Render’dagi `ADMIN_CHAT_IDS` ga yozing (buyurtmalar shu chatga keladi).
+2. (Ixtiyoriy) @BotFather → `/setinline` — `@mira_kosmetika_bot <so‘z>` orqali mahsulot ulashish uchun.
+3. Render Free tarifi 15 daqiqa harakatsizlikdan keyin uxlaydi; tez javob uchun Starter tarifi yoki UptimeRobot bilan
+   `https://mira-kosmetika-api.onrender.com/api/health` ni har 5 daqiqada “ping” qilib turing.
+
+> Diqqat: backendni lokal ishga tushirish webhookni o‘chiradi (polling). Keyin Render servisini qayta ishga tushiring
+> yoki admin panel → Sozlamalar → “Botni ulash”ni bosing.
