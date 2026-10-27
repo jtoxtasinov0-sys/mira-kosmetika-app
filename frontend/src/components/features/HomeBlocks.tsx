@@ -43,9 +43,10 @@ function NewArrivals({ products }: { products: Product[] }) {
         <Link
           key={p.id}
           href={`/product/${p.id}`}
-          className="aspect-square overflow-hidden rounded-[20px] bg-white shadow-xl ring-2 ring-white/25 active:scale-95 transition"
+          className="aspect-square overflow-hidden rounded-[20px] shadow-xl active:scale-95 transition"
         >
-          <ProductImage src={p.image} alt={p.name} eager className="size-full" />
+          {/* Rasmlar chetidagi oq hoshiya kartada ko'rinmasligi uchun biroz kattalashtiriladi */}
+          <ProductImage src={p.image} alt={p.name} eager className="size-full scale-110" />
         </Link>
       ))}
     </div>
