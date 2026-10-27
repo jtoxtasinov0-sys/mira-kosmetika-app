@@ -1,4 +1,4 @@
-// Boshlang'ich ma'lumotlar: kategoriyalar, 63 ta mahsulot va rasmlari
+// Boshlang'ich ma'lumotlar: kategoriyalar, 61 ta mahsulot va rasmlari
 // npm run seed            — katalog bo'sh bo'lsa to'ldiradi
 // npm run seed -- --reset — katalogni (mahsulot + kategoriya) o'chirib, qaytadan yozadi. Buyurtmalar saqlanib qoladi.
 import { readFile } from 'node:fs/promises';
