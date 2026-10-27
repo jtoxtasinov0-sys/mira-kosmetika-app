@@ -33,6 +33,25 @@ function FloatingProducts({ products }: { products: Product[] }) {
   );
 }
 
+// "Yangi kelganlar" banneri: mahsulot rasmlari bir qatorda, bir xil o'lchamda va to'liq ko'rinadi
+function NewArrivals({ products }: { products: Product[] }) {
+  const items = products.filter((p) => p.image).slice(0, 3);
+  if (!items.length) return null;
+  return (
+    <div className="relative mt-3 grid grid-cols-3 gap-2.5">
+      {items.map((p) => (
+        <Link
+          key={p.id}
+          href={`/product/${p.id}`}
+          className="aspect-square overflow-hidden rounded-[20px] bg-white shadow-xl ring-2 ring-white/25 active:scale-95 transition"
+        >
+          <ProductImage src={p.image} alt={p.name} eager className="size-full" />
+        </Link>
+      ))}
+    </div>
+  );
+}
+
 export function HeroCarousel({ hits, fresh }: { hits: Product[]; fresh: Product[] }) {
   const ref = useRef<HTMLDivElement>(null);
   const [idx, setIdx] = useState(0);
@@ -103,19 +122,19 @@ export function HeroCarousel({ hits, fresh }: { hits: Product[]; fresh: Product[
         </div>
 
         {/* 3 — Yangi kelganlar */}
-        <div className={cn(slide, 'flex gap-3 bg-[linear-gradient(135deg,#1e1033_0%,#4a0e8f_70%,#7a2bb8_100%)]')}>
+        <div className={cn(slide, 'flex flex-col bg-[linear-gradient(135deg,#1e1033_0%,#4a0e8f_70%,#7a2bb8_100%)]')}>
           <div className="absolute -bottom-16 -left-10 size-48 rounded-full bg-mira-magenta/40 blur-3xl" />
-          <div className="relative min-w-0 flex-1">
+          <div className="relative flex items-center justify-between gap-3">
             <p className="font-serif text-[15px] italic text-mira-200">Yangi partiya</p>
-            <h2 className="mt-1 font-serif text-[22px] font-bold leading-[1.12]">Yangi kelgan mahsulotlar</h2>
             <Link
               href="/catalog?filter=new"
-              className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-white px-3.5 py-2 text-xs font-extrabold text-mira-700 active:scale-95 transition"
+              className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-white px-3.5 py-2 text-xs font-extrabold text-mira-700 active:scale-95 transition"
             >
               Ko‘rish <ArrowRight className="size-3.5" />
             </Link>
           </div>
-          <FloatingProducts products={fresh} />
+          <h2 className="relative mt-1 font-serif text-[22px] font-bold leading-[1.12]">Yangi kelgan mahsulotlar</h2>
+          <NewArrivals products={fresh} />
         </div>
       </div>
       <div className="mt-2.5 flex justify-center gap-1.5">

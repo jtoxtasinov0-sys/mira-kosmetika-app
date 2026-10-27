@@ -55,10 +55,10 @@ export default function HomePage() {
 
           {isLoading ? (
             <div className="px-4">
-              <Skeleton className="h-[196px] rounded-[28px]" />
+              <Skeleton className="h-[206px] rounded-[28px]" />
             </div>
           ) : (
-            <HeroCarousel hits={hits.slice(0, 2)} fresh={fresh.slice(0, 2)} />
+            <HeroCarousel hits={hits.slice(0, 2)} fresh={fresh.slice(0, 3)} />
           )}
 
           <InfoCards deliveryNote={settings?.delivery_note} />
