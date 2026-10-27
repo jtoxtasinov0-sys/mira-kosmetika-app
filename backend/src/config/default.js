@@ -25,7 +25,7 @@ const config = {
     webhookMode: !!process.env.VERCEL || process.env.BOT_MODE === 'webhook',
   },
 
-  webappUrl: (process.env.WEBAPP_URL || 'http://localhost:3000').replace(/\/$/, ''),
+  webappUrl: (process.env.WEBAPP_URL || 'http://localhost:3000').trim().replace(/\/$/, ''),
 
   admin: {
     password: process.env.ADMIN_PASSWORD || '',

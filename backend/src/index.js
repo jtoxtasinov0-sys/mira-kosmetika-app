@@ -5,11 +5,14 @@ import config from './config/default.js';
 import app from './app.js';
 import bot from './core/bot.js';
 import { configureBot } from './controllers/startController.js';
+import { removeMira48hFresh } from './database/cleanup.js';
 import logger from './utils/logger.js';
 
 app.listen(config.port, () => {
   logger.info(`API: http://localhost:${config.port}/api/health`);
 });
+
+removeMira48hFresh().catch((err) => logger.error('Tozalash bajarilmadi:', err.message));
 
 const publicUrl = (process.env.RENDER_EXTERNAL_URL || process.env.BACKEND_URL || '').replace(/\/$/, '');
 

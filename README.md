@@ -10,7 +10,7 @@ frontend/  Next.js 16 (App Router) + Tailwind + Zustand  → Vercel loyiha #2
 ## Imkoniyatlar
 
 - **Dona / Optom** rejimi (🇰🇷 tugma): narxlar butun ilovada darhol o‘zgaradi, optomda minimal miqdor nazorat qilinadi.
-- 9 kategoriya, 63 mahsulot rasmlari bilan (`backend/seed/`).
+- 9 kategoriya, 61 mahsulot rasmlari bilan (`backend/seed/`).
 - **To‘lov faqat kartaga o‘tkazma**: mijoz karta raqamini ko‘radi, summani o‘tkazadi va chek skrinshotini yuklaydi.
   Test karta: `4242 4242 4242 4242` — admin panel → Sozlamalar’dan o‘zgartiriladi.
 - **Yangi buyurtma adminga Telegram’da keladi**: har bir mahsulot — rasmi va tagida ma’lumotlari bilan, so‘ng chek rasmi + umumiy ma’lumot va
